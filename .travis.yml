@@ -1,0 +1,24 @@
+language: objective-c
+osx_image: xcode7.1
+sudo: false
+env:
+  global:
+  - IJK_HASH=master
+  - IJK_REPO=https://github.com/Bilibili/ijkplayer.git
+script:
+- git clone --depth=50 --branch=$IJK_HASH $IJK_REPO
+- cd ijkplayer
+- "./init-ios.sh"
+- cd ios
+- "./compile-ffmpeg.sh all"
+- cd ../..
+- mkdir -p output
+- tar cjf output/ffmpeg-fat.tar.bz2 ijkplayer/ios/build/universal
+after_deploy: "./after_deploy.sh"
+before_deploy: "./before_deploy.sh"
+deploy:
+  provider: bintray
+  file: travis.bintray.deploy
+  user: bbcallen
+  key:
+    secure: KXz6Uvk4mn0SArsrtVZ0VU2GPcbqrsl+Uurf4opMfLcNyeajhvVWL7JSj/xqvx+SfRv9OtsU+w+SqrWwc8Jn/WwlgNCyhR22O13vJpm9ZiAY+zkZIeJAeSHXTvJ31d46pttmbHITHKPF8r/oOnEKFtn4Pc+xLFZRRuzfuWTIPDzCmyB+HlM3VmqBF9AgIjTnZoTyLTTvlDN8kvP+vRB8bm5g9hrBpdv+T5uHvHBwLV9O7FKuQAU8KghB7DU6cAUS/qxnWVHaCXbr0TOqQu/rLQdj5vygs/MjJ/WGQ0pgNRe2e4INz5ixT+h5WJCXJwNUBu0VELkCY5fLR5HUrvNjlEozlG3RSMxiwtNR+n9C6pAlcQ6FqN9Bvd8pZnt/EdFTTdBj7I+ZZObZ8kM33BFNmL6eOKTG54QeB9dqsR4FprOUavHdhRcEn9HNzHY1PQHIs9+8LeXv9m9pea3/nu6ygiR48pumfKWiZ+soeMhjlfgs2XIzkGGmhe1oac59h6yHwoAZmu10lO01Mm0p0l+x1sbE+bGqpb+U3PkgbMtcGY0NEmqsTbgz5vt2i40scvWbzD5HF/FCPXM5cEc6+P1NccXageQiUbh3+/n8BQh7A6ryXWKo07Yd3x9LzesC/84S0mmA8d4LMwGUQVXNJbRn+gKLWPjT+GhfcsqLTsNizMM=
