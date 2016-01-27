@@ -19,7 +19,7 @@ root = {
     :files => [
         {
             :includePattern => "output/(.*)",
-            :uploadPattern  => "$1",
+            :uploadPattern  => ARGV[0] + "/" + "$1",
         },
     ],
 
