@@ -3,7 +3,7 @@ osx_image: xcode7.1
 sudo: false
 env:
   global:
-  - IJK_HASH=k0.7.6
+  - IJK_HASH=k0.7.7
   - IJK_REPO=https://github.com/Bilibili/ijkplayer.git
 script:
 - git clone --depth=50 --branch=$IJK_HASH $IJK_REPO
